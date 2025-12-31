@@ -25,7 +25,7 @@ This project analyses the user journey on the Cool T-Shirts website, tracking co
   
 ## How to Run
 1. Download the CSVs from Data File.
-2. Run the notebook `Website Conversion Funnel Analysis .ipynb` in Jupyter.
+2. Run the notebook `Website_Conversion_Funnel_Analysis.ipynb` in Jupyter.
 3. Outputs: Merged funnel data, drop-off rates, average purchase time.
 
 ## Dashboard
