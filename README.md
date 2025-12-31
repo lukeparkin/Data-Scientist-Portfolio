@@ -9,9 +9,9 @@ I'm an aspiring Data Analyst based in London, passionate about turning raw data 
 
 ### Projects
 
-| Project | Tools Used | Description | Key Skills |
-|---------|------------|-------------|------------|
-| [Page Visits Funnel](https://github.com/lukeparkin/Data-Analyst-Portfolio/tree/eca9b7cc4edbe7f860f07fa90694ca49cebc3fee/Project%201%20-%20Page%20Visits%20Funnel) | Python, PowerBI (DAX) | Identify drop-off points and calculate conversion rates to suggest improvements for better sales | Data Loading & Merging, Funnel Calculations, Time-Based Analysis, Business Recommendations from Insights |
+| Project | Tools Used | Description | Key Skills | Report Image |
+|---------|------------|-------------|------------|--------------|
+| [Page Visits Funnel](https://github.com/lukeparkin/Data-Analyst-Portfolio/tree/eca9b7cc4edbe7f860f07fa90694ca49cebc3fee/Project%201%20-%20Page%20Visits%20Funnel) | Python, PowerBI (DAX) | Identify drop-off points and calculate conversion rates to suggest improvements for better sales | Data Loading & Merging, Funnel Calculations, Time-Based Analysis, Business Recommendations from Insights | [Image](https://github.com/lukeparkin/Data-Analyst-Portfolio/blob/18cdf5b5759c6f48cb021ac76af54ad8a9f44e99/Project%201%20-%20Page%20Visits%20Funnel/Images/Page%20Visit%20Analysis.jpg)
 
 *(I'll update this table as I complete more projects!)*
 
