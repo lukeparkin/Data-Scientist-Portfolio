@@ -5,7 +5,7 @@ I'm an aspiring Data Analyst based in London, passionate about turning raw data 
 
 - **Data Cleaning & Transformation** (SQL, Python/Pandas)
 - **Exploratory Data Analysis** (EDA)
-- **Data Visualization** (Power BI, LookerStudio and Matplotlib)
+- **Data Visualization** (Power BI, LookerStudio, Matplotlib, Seaborn, Scikit-learn)
 
 ### Projects
 
