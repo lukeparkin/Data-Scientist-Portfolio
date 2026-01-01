@@ -21,4 +21,3 @@ I'm an aspiring Data Analyst based in London, passionate about turning raw data 
 - Currently Strengthening: SQL, Excel, Python (Pandas, NumPy) and Power BI.
 - Always open to feedback - feel free to open an issue or connect on [LinkedIn](https://www.linkedin.com/in/lukeparkin1/)!
 
-Thanks for visiting! 🚀
