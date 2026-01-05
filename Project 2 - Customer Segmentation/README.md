@@ -1,7 +1,7 @@
 # Customer Segmentation Analysis
 
 ## Overview
-This project performs an in-depth customer segmentation analysis using the [Mall Customers Dataset](https://www.kaggle.com/datasets/vjchoudhary7/customer-segmentation-tutorial-in-python) from Kaggle. My goal in this project is to understand customer shopping behaviour by combining demographic information (Age, Gender & Annual Income) with spending patterns (Spending Score) to identify distinc behavioural segment.
+This project performs an in-depth customer segmentation analysis using the [Mall Customers Dataset](https://www.kaggle.com/datasets/vjchoudhary7/customer-segmentation-tutorial-in-python) from Kaggle. My goal in this project is to understand customer shopping behaviour by combining demographic information (Age, Gender & Annual Income) with spending patterns (Spending Score) to identify distinct behavioural segments.
 Through feature engineering, manual segmentation and comparative analysis, this project unveils actionable insights for targeted marketing and customer strategy.
 
 **Key Insights:**
