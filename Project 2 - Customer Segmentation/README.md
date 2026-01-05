@@ -22,3 +22,15 @@ Through feature engineering, manual segmentation and comparative analysis, this 
 
 ## Tools Used
 - Python (Pandas, NumPy, Matplotlib, Seaborn)
+
+## How to Run
+1. Clone or download this repository.
+2. Put Mall_Customers.csv in the project directory.
+3. Run the notebook `Customer_Segmentation_Project.ipynb` in Jupyter Notebook or Jupyter Lab.
+4. All visualisations and results will be generated.
+
+## Business Recommendations
+1. Prioritise marketing efforts toward customers under 36, particularly the "Young High-Spenders" category.
+2. Launch targeted upselling campaigns for high-income customers with low spending behaviour.
+3. Develop age-specific product recommendations and promotions.
+4. Implement personalised loyalty programs tailored to spending pattern.
