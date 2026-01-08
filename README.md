@@ -20,5 +20,5 @@ I'm an aspiring Data Scientist based in London, passionate about transforming da
 - Learning through self-study, online courses, and real-world datasets (Kaggle, UK open data, WHO, World Bank).
 - Targeting entry-level/junior Data Analyst roles.
 - Currently Strengthening: SQL, Python, Power BI and Machine Learning.
-- Always open to feedback - feel free to open an issue or connect on [LinkedIn](https://www.linkedin.com/in/lukeparkin1/)!
+- Always open to feedback - feel free to connect on [LinkedIn](https://www.linkedin.com/in/lukeparkin1/)!
 
