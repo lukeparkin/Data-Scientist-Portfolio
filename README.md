@@ -19,7 +19,7 @@ I'm an aspiring Investment Analyst based in London, passionate about transformin
 
 ### About Me
 - Learning through self-study, online courses, and real-world datasets (Kaggle, UK open data, WHO, World Bank).
-- Targeting entry-level/junior Data Scientist/Analyst roles.
+- Targeting entry-level/junior Investment Analyst roles.
 - Currently Strengthening: SQL, Python, Power BI and Machine Learning.
 - Always open to feedback - feel free to connect on [LinkedIn](https://www.linkedin.com/in/lukeparkin1/)!
 
