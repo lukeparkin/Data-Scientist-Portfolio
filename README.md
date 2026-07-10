@@ -1,7 +1,6 @@
-# Analyst Portfolio
-Welcome to my Analyst Portfolio!
+Welcome to my Coding Portfolio!
 
-I'm an aspiring Investment Analyst based in London, passionate about transforming data into actionable business insights. Currently, I am strengthening my skills in Python and SQL with a strong focus on ML. This repository showcases my hands-on projects demonstrating key skills including:
+I'm an Independent trader focused on SPX options market structure, macro rates, and quantitative modelling. CFA Level 1 candidate.
 
 - **Data Cleaning & Transformation** (SQL, Python)
 - **Exploratory Data Analysis** (EDA)
