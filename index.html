@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luke Parkin — Systematic Derivatives Trader & Research</title>
+<meta name="description" content="Independent trader focused on SPX options market structure, macro rates, and quantitative modelling.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e0d;
+    --bg-panel: #10141310;
+    --border: #1f2926;
+    --border-strong: #2a3532;
+    --text: #d4dedb;
+    --text-muted: #7a8b86;
+    --text-dim: #4a5854;
+    --accent: #f2fa5c;
+    --accent-dim: #a8ad3f;
+    --pos: #6ee7b7;
+    --neg: #f87171;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(242, 250, 92, 0.03), transparent 40%),
+      radial-gradient(circle at 80% 100%, rgba(110, 231, 183, 0.02), transparent 40%);
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ============ TOP TICKER ============ */
+  .ticker {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 48px;
+    animation: scroll 60s linear infinite;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .ticker-item { display: inline-flex; gap: 8px; }
+  .ticker-item .val { color: var(--text); }
+  .ticker-item .pos { color: var(--pos); }
+  .ticker-item .neg { color: var(--neg); }
+
+  /* ============ HEADER ============ */
+  header {
+    padding: 96px 0 64px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    color: var(--text);
+  }
+  h1 .accent { color: var(--accent); font-weight: 500; }
+
+  .lede {
+    font-size: 18px;
+    max-width: 640px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .lede strong { color: var(--text); font-weight: 500; }
+
+  .header-meta {
+    margin-top: 48px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .header-meta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-strong);
+    padding-bottom: 2px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .header-meta a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ============ SECTION HEADERS ============ */
+  .section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .section-label .count { color: var(--text-dim); }
+
+  /* ============ RESEARCH GRID ============ */
+  .research-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .research-item {
+    background: var(--bg);
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 32px;
+    align-items: start;
+    transition: background 0.2s;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .research-item:hover { background: #0f1412; }
+  .research-item:hover .research-title { color: var(--accent); }
+
+  .research-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    padding-top: 4px;
+  }
+
+  .research-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .research-tags {
+    display: flex;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .research-tag { padding: 3px 8px; border: 1px solid var(--border-strong); }
+
+  .research-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    transition: color 0.2s;
+  }
+
+  .research-desc {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  .research-meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .research-arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-dim);
+    padding-top: 8px;
+    transition: color 0.2s, transform 0.2s;
+  }
+  .research-item:hover .research-arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .research-item--upcoming {
+    cursor: default;
+    opacity: 0.72;
+  }
+  .research-item--upcoming:hover { background: var(--bg); }
+  .research-item--upcoming:hover .research-title { color: var(--text); }
+  .research-item--upcoming:hover .research-arrow { color: var(--text-dim); transform: none; }
+
+  .research-tag--upcoming {
+    color: var(--accent);
+    border-color: var(--accent-dim);
+  }
+
+  /* ============ ABOUT SECTION ============ */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+
+  .about-copy p {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+  .about-copy p strong { color: var(--text); font-weight: 500; }
+
+  .about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .stat {
+    border-left: 2px solid var(--border-strong);
+    padding-left: 20px;
+  }
+  .stat .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .stat .value {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* ============ EARLIER WORK ============ */
+  .early-work {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .early-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 24px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .early-item:hover { border-color: var(--border-strong); }
+  .early-item:hover .early-title { color: var(--accent); }
+
+  .early-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .early-title {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.35;
+    transition: color 0.2s;
+  }
+
+  .early-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .early-note {
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* ============ CONTACT / FOOTER ============ */
+  footer {
+    padding: 64px 0 96px;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: end;
+  }
+  .contact-headline {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    max-width: 400px;
+  }
+  .contact-headline .accent { color: var(--accent); font-weight: 500; }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .contact-links a {
+    color: var(--text);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 12px;
+    transition: color 0.15s;
+  }
+  .contact-links a:hover { color: var(--accent); }
+  .contact-links a .arrow { color: var(--text-dim); }
+  .contact-links a:hover .arrow { color: var(--accent); }
+
+  .footer-line {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 720px) {
+    .container { padding: 0 20px; }
+    header { padding: 64px 0 48px; }
+    .section { padding: 56px 0; }
+    .research-item {
+      grid-template-columns: 1fr;
+      padding: 28px;
+      gap: 16px;
+    }
+    .research-num, .research-arrow { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .early-work { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; align-items: start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-inner { animation: none; }
+    * { transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item"><span>SPX</span><span class="val">7,483.24</span><span class="pos">+0.01%</span></span>
+    <span class="ticker-item"><span>VIX</span><span class="val">15.84</span><span class="neg">-6.30%</span></span>
+    <span class="ticker-item"><span>CBOE</span><span class="val">268.08</span><span class="pos">+0.08%</span></span>
+    <span class="ticker-item"><span>FED FUNDS</span><span class="val">3.50-3.75%</span></span>
+    <span class="ticker-item"><span>UST 10Y</span><span class="val">4.47%</span></span>
+    <span class="ticker-item"><span>USD/EUR</span><span class="val">1.086</span></span>
+    <!-- duplicated for scroll -->
+    <span class="ticker-item"><span>SPX</span><span class="val">7,483.24</span><span class="pos">+0.01%</span></span>
+    <span class="ticker-item"><span>VIX</span><span class="val">15.84</span><span class="neg">-6.30%</span></span>
+    <span class="ticker-item"><span>CBOE</span><span class="val">268.08</span><span class="pos">+0.08%</span></span>
+    <span class="ticker-item"><span>FED FUNDS</span><span class="val">3.50-3.75%</span></span>
+    <span class="ticker-item"><span>UST 10Y</span><span class="val">4.47%</span></span>
+    <span class="ticker-item"><span>USD/EUR</span><span class="val">1.086</span></span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="container">
+    <div class="eyebrow">Luke Parkin · London · Est. 2021</div>
+    <h1>Systematic derivatives<br>trader &amp; <span class="accent">research</span>.</h1>
+    <p class="lede">
+      Economics Graduate focused on <strong>SPX options market structure</strong>, macro rates, and quantitative modelling. 4 years of independent investing and trading experience building rules-based frameworks from real market data. CFA Level 1 candidate, February 2027.
+    </p>
+    <div class="header-meta">
+      <span>Available for buy-side, prop trading and investment research roles</span>
+      <a href="#research">↓ research</a>
+      <a href="#contact">↓ contact</a>
+    </div>
+  </div>
+</header>
+
+<!-- RESEARCH -->
+<section class="section" id="research">
+  <div class="container">
+    <div class="section-label">
+      <span>Featured research</span>
+      <span class="count">03 / published</span>
+    </div>
+    <div class="research-grid">
+
+      <a href="https://github.com/lukeparkin/spx-vol-regimes" class="research-item">
+        <div class="research-num">01</div>
+        <div class="research-content">
+          <div class="research-tags">
+            <span class="research-tag">Python</span>
+            <span class="research-tag">Market structure</span>
+            <span class="research-tag">Clustering</span>
+          </div>
+          <div class="research-title">SPX Volatility Regimes &amp; Dealer Positioning Proxies</div>
+          <div class="research-desc">
+            Empirical classification of S&amp;P 500 volatility regimes from 2018 to present, using observable dealer positioning proxies to identify when hedging flows shift from vol-suppressing to vol-amplifying. K-means on VIX level, vol risk premium, term structure, and intraday range across 2,100+ trading days.
+          </div>
+          <div class="research-meta">
+            <span>GitHub</span><span>·</span><span>Jul 2026</span>
+          </div>
+        </div>
+        <div class="research-arrow">→</div>
+      </a>
+
+      <a href="#" class="research-item research-item--upcoming" aria-disabled="true">
+        <div class="research-num">02</div>
+        <div class="research-content">
+          <div class="research-tags">
+            <span class="research-tag">Equity research</span>
+            <span class="research-tag">Long</span>
+            <span class="research-tag research-tag--upcoming">Coming soon</span>
+          </div>
+          <div class="research-title">CBOE Global Markets: A Near-Monopoly on Sale</div>
+          <div class="research-desc">
+            Long thesis on the exchange operator: the market has conflated a competitive threat to nascent event contracts with a threat to the structurally protected SPX and VIX franchise. $340 price target vs $268 current, with Q2 earnings on 31 July as the near catalyst.
+          </div>
+          <div class="research-meta">
+            <span>Publishing Jul 2026</span>
+          </div>
+        </div>
+        <div class="research-arrow">◷</div>
+      </a>
+
+      <a href="https://medium.com/@lukeparkin1" class="research-item">
+        <div class="research-num">03</div>
+        <div class="research-content">
+          <div class="research-tags">
+            <span class="research-tag">Equity research</span>
+            <span class="research-tag">Valuation</span>
+          </div>
+          <div class="research-title">SpaceX Post-IPO: Valuing the Unlisted Giant Through Alphabet</div>
+          <div class="research-desc">
+            Structural peer comparison using Alphabet's post-IPO trajectory as a reference for how the market may price SpaceX's combination of high-growth, capital-intensive infrastructure with a durable technology moat. Sourced valuation framework with Datawrapper charts.
+          </div>
+          <div class="research-meta">
+            <span>Medium</span><span>·</span><span>Jun 2026</span>
+          </div>
+        </div>
+        <div class="research-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">
+      <span>Background</span>
+      <span class="count">// about</span>
+    </div>
+    <div class="about-grid">
+      <div class="about-copy">
+        <p>Economics graduate from Aston University with a systematic approach to markets. Four years of independent investing and trading experience centred on SPX options market structure — analysing gamma exposure, dealer positioning and open-interest dynamics to model directional bias and anticipate key price levels.</p>
+        <p>Alongside independent trading I've founded and scaled two data-driven businesses, including <strong>Global Tickets Direct Limited</strong>, which has generated £250k+ in revenue through disciplined secondary-market pricing and inventory risk management.</p>
+        <p>Currently preparing for CFA Level 1 (February 2027) and actively looking for buy-side, prop trading, or investment research roles.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="label">Focus</div>
+          <div class="value">SPX options, 0DTE microstructure, dealer positioning, macro rates</div>
+        </div>
+        <div class="stat">
+          <div class="label">Stack</div>
+          <div class="value">Python (pandas, scikit-learn, matplotlib), SQL, Excel, Power BI</div>
+        </div>
+        <div class="stat">
+          <div class="label">Languages</div>
+          <div class="value">English (native), German &amp; Greek (conversational), Basic Mandarin Chinese</div>
+        </div>
+        <div class="stat">
+          <div class="label">Certification</div>
+          <div class="value">CFA Level 1 candidate — February 2027</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EARLIER WORK -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">
+      <span>Earlier work</span>
+      <span class="count">// data analysis · Early 2026</span>
+    </div>
+    <div class="early-work">
+      <a href="https://github.com/lukeparkin/lukeparkin.github.io/tree/main/Project%201%20-%20Page%20Visits%20Funnel" class="early-item">
+        <div class="early-tag">SQL</div>
+        <div class="early-title">Page Visits Funnel</div>
+        <div class="early-desc">User conversion funnel analysis in SQL.</div>
+      </a>
+      <a href="https://github.com/lukeparkin/lukeparkin.github.io/tree/main/Project%202%20-%20Customer%20Segmentation" class="early-item">
+        <div class="early-tag">Python</div>
+        <div class="early-title">Customer Segmentation</div>
+        <div class="early-desc">Clustering and cohort analysis on transactional retail data.</div>
+      </a>
+      <a href="https://github.com/lukeparkin/lukeparkin.github.io/tree/main/Project%203%20-%20The%20Relationship%20Between%20GDP%20and%20Life%20Expectancy" class="early-item">
+        <div class="early-tag">Python</div>
+        <div class="early-title">GDP &amp; Life Expectancy</div>
+        <div class="early-desc">Exploratory analysis on macro development data.</div>
+      </a>
+    </div>
+    <div class="early-note">// exercises from initial Python and SQL learning period</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<footer id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-headline">
+        Get in touch <span class="accent">.</span>
+      </div>
+      <div class="contact-links">
+        <a href="https://medium.com/@lukeparkin1" target="_blank" rel="noopener">
+          <span class="arrow">→</span> medium.com/@lukeparkin1
+        </a>
+        <a href="https://www.linkedin.com/in/lukeparkin1/" target="_blank" rel="noopener">
+          <span class="arrow">→</span> linkedin.com/in/lukeparkin1
+        </a>
+        <a href="https://github.com/lukeparkin" target="_blank" rel="noopener">
+          <span class="arrow">→</span> github.com/lukeparkin
+        </a>
+      </div>
+    </div>
+    <div class="footer-line">
+      <span>Luke Parkin · London</span>
+      <span>Last updated 2026-07-13</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
